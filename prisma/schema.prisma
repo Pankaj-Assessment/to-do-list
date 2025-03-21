@@ -1,0 +1,39 @@
+model User {
+  id          String     @id @default(uuid())
+  email       String     @unique
+  password    String
+  tasks       Task[]     @relation("UserTasks")
+  sharedTasks Task[]     @relation("SharedTasks")
+  UserTask    UserTask[]
+}
+
+model Task {
+  id         String     @id @default(uuid())
+  title      String
+  content    String
+  ownerId    String
+  owner      User       @relation("UserTasks", fields: [ownerId], references: [id])
+  sharedWith User[]     @relation("SharedTasks")
+  createdAt  DateTime   @default(now())
+  UserTask   UserTask[]
+}
+
+model UserTask {
+  userId String
+  taskId String
+
+  user User @relation(fields: [userId], references: [id])
+  task Task @relation(fields: [taskId], references: [id])
+
+  @@id([userId, taskId]) // Composite primary key
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
