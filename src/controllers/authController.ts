@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import bcrypt from "fastify-bcrypt";
 import { createUser, findUserByEmail } from "../models/userModel";
-
+import jwt from 'jsonwebtoken'
 export const signup = async (req: FastifyRequest, reply: FastifyReply) => {
   const { email, password } = req.body as { email: string; password: string };
 
@@ -22,7 +22,8 @@ export const login = async (req: FastifyRequest, reply: FastifyReply) => {
   if (!user || !(await req.server.bcrypt.compare(password, user.password))) {
     return reply.status(401).send({ error: "Invalid credentials" });
   }
+  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET as string, { expiresIn: "1h" });
 
-  const token = req.server.jwt.sign({ userId: user.id, email: user.email });
+ // const token = req.server.jwt.sign({ userId: user.id, email: user.email });
   return reply.send({ message: "Login successful", token });
 };

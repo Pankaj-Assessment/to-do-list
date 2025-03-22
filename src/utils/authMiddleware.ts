@@ -11,15 +11,16 @@ declare module 'fastify' {
   }
 export const authMiddleware = async (request: FastifyRequest, reply: FastifyReply) => {
     try {
+        
         const token = request.headers.authorization?.split(" ")[1];
         if (!token) {
             return reply.status(401).send({ message: "Unauthorized" });
         }
 
+        console.log(token, process.env.JWT_SECRET,"userId")
         const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as DecodedToken;
 
         request.authUser = { userId: decoded.userId }; // ✅ Use authUser instead of user
-
     } catch (error) {
         return reply.status(401).send({ message: "Invalid token" });
     }
