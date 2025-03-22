@@ -17,8 +17,34 @@ export const useAuthStore = defineStore("auth", {
       }
     },
     logout() {
+      
       this.token = null;
       localStorage.removeItem("token");
+      this.$reset();
     },
+    async createNewTask(title: string, content: string) {
+      try {
+        const token = localStorage.getItem("token"); // Get token from localStorage
+        if (!token) {
+          throw new Error("No authentication token found");
+        }
+    
+        const response = await api.post(
+          "/createNewTask",
+          { title, content },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Send token in headers
+            },
+          }
+        );
+    
+        return response.data;
+      } catch (error) {
+        console.error("Task Creation failed", error);
+        throw error; // Ensure proper error handling in UI
+      }
+    },
+    
   },
 });

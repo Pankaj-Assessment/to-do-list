@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import axios from "axios";
+import api from "../services/api";
 
 const tasks = ref([]);
 
@@ -22,7 +22,7 @@ onMounted(fetchTasks);
     <ul v-if="tasks.length">
       <li v-for="task in tasks" :key="task.id" class="task-item">
         <h3>{{ task.title }}</h3>
-        <p>{{ task.content }}</p>
+        <p style="font-family: Georgia, 'Times New Roman', Times, serif;">{{ task.content }}</p>
         <small>Created At: {{ new Date(task.createdAt).toLocaleString() }}</small>
       </li>
     </ul>

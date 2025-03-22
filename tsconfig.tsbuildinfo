@@ -1,1 +1,1 @@
-{"root":["./vite.config.ts","./src/app.vue","./src/main.ts","./src/vite-env.d.ts","./src/components/helloworld.vue","./src/components/homeview.vue","./src/components/loginview.vue","./src/router/index.ts","./src/services/api.ts","./src/stores/auth.ts"],"errors":true,"version":"5.7.3"}
+{"root":["./src/app.vue","./src/main.ts","./src/vite-env.d.ts","./src/components/helloworld.vue","./src/components/homeview.vue","./src/router/index.ts","./src/services/api.ts","./src/stores/auth.ts","./src/views/loginview.vue"],"errors":true,"version":"5.8.2"}

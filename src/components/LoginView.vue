@@ -10,10 +10,17 @@ const router = useRouter();
 
 const login = async () => {
   try {
+   
     await authStore.login(email.value, password.value);
-    router.push("/");
+
+    if (authStore.token) { // Ensure token is set before redirecting
+      console.log("Login successful, redirecting...");
+      router.push("/");
+    } else {
+      console.error("Login failed: No token received.");
+    }
   } catch (error) {
-    console.error("Login failed", error);
+    console.error("Login error:", error);
   }
 };
 </script>
